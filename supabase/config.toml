@@ -1,0 +1,9 @@
+# Supabase local config — linked project: txrkjnejepphxjgytfro
+project_id = "txrkjnejepphxjgytfro"
+
+[api]
+enabled = true
+
+[db]
+port = 54322
+major_version = 15
