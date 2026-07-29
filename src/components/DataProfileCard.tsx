@@ -1,8 +1,20 @@
+import { assetUrl } from "@/lib/assets";
 import type { Profile } from "@/lib/types";
 
 export default function DataProfileCard({ profile }: { profile: Profile }) {
+  const avatarUrl = assetUrl(profile.avatar_url || "/assets/avatar.jpg");
+
   return (
     <div className="editorial-card mx-auto w-full max-w-[340px] overflow-hidden font-mono-label text-[0.75rem] shadow-[0_4px_24px_rgba(0,0,0,0.04)] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(200,92,64,0.08)]">
+      <div className="aspect-[4/3] overflow-hidden bg-[var(--bg-secondary)]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={avatarUrl}
+          alt={`${profile.name} profile photo`}
+          className="h-full w-full object-cover object-center"
+        />
+      </div>
+
       <div className="border-b border-[var(--border-light)] bg-[var(--bg-secondary)] px-5 py-8">
         <p className="font-display text-2xl font-bold leading-tight">Turning retail data into decisions.</p>
         <p className="mt-3 font-[family-name:var(--font-body)] text-[0.82rem] leading-relaxed text-[var(--text-secondary)]">

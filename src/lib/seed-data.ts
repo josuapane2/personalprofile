@@ -11,7 +11,7 @@ export const seedProfile: Profile = {
   linkedin_url: "https://linkedin.com/in/josuapane/",
   github_url: "https://github.com/josuapane13",
   cv_url: null,
-  avatar_url: null,
+  avatar_url: "/assets/avatar.jpg",
 };
 
 export const seedExperiences: Experience[] = [

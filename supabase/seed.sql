@@ -1,6 +1,6 @@
 -- Initial content for Josua Pane's portfolio.
 
-INSERT INTO profile (name, title, bio, location, email, phone, linkedin_url, github_url) VALUES (
+INSERT INTO profile (name, title, bio, location, email, phone, linkedin_url, github_url, avatar_url) VALUES (
   'Josua Pane',
   'Sales & Data Analyst',
   'Analyst experienced in large-scale retail data, reporting automation, sales operations, and dashboard development.',
@@ -8,7 +8,8 @@ INSERT INTO profile (name, title, bio, location, email, phone, linkedin_url, git
   'panejwork@gmail.com',
   '+62 813-4633-3059',
   'https://linkedin.com/in/josuapane/',
-  'https://github.com/josuapane13'
+  'https://github.com/josuapane13',
+  '/assets/avatar.jpg'
 );
 
 INSERT INTO experiences (category, title, organization, location, period_start, period_end, highlights, sort_order) VALUES
