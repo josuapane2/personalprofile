@@ -1,4 +1,4 @@
-import { ExternalLink, FileText } from "lucide-react";
+﻿import { ExternalLink, FileText } from "lucide-react";
 import { assetUrl } from "@/lib/assets";
 import type { Project } from "@/lib/types";
 
@@ -16,47 +16,38 @@ function getTagStyle(tag: string) {
 }
 
 export default function ProjectCard({ project }: { project: Project }) {
-  const docUrl = project.doc_url ? assetUrl(project.doc_url) : null;
-  const imageUrl = project.image_url ? assetUrl(project.image_url) : null;
+  const previewUrl = project.doc_url
+    ? assetUrl(project.doc_url)
+    : project.image_url
+      ? assetUrl(project.image_url)
+      : null;
 
   return (
     <article className="editorial-card group overflow-hidden hover:-translate-y-[3px]">
       <div className="relative flex aspect-[16/10] overflow-hidden bg-[var(--bg-secondary)]">
-        {imageUrl ? (
+        {project.doc_url ? (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={imageUrl}
-              alt={project.title}
+            <iframe
+              src={`${previewUrl}#page=1&view=FitH&toolbar=0&navpanes=0&scrollbar=0`}
+              title={`${project.title} PDF preview`}
               loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+              className="h-full w-full border-0 bg-white"
             />
-            {docUrl && (
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent p-3">
-                <span className="inline-flex items-center gap-1 rounded-full bg-black/50 px-2 py-1 font-mono-label text-[0.55rem] uppercase tracking-widest text-white">
-                  <FileText size={11} />
-                  PDF Report
-                </span>
-              </div>
-            )}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent p-3">
+              <span className="inline-flex items-center gap-1 rounded-full bg-black/50 px-2 py-1 font-mono-label text-[0.55rem] uppercase tracking-widest text-white">
+                <FileText size={11} />
+                PDF Preview
+              </span>
+            </div>
           </>
-        ) : docUrl ? (
-          <a
-            href={docUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex h-full w-full flex-col items-center justify-center gap-3 p-6 text-center transition-colors hover:bg-[var(--primary-light)]"
-          >
-            <span className="flex h-12 w-12 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--primary-light)] text-[var(--primary)]">
-              <FileText size={22} />
-            </span>
-            <span className="font-display text-lg font-semibold text-[var(--text)]">
-              {project.title}
-            </span>
-            <span className="font-mono-label text-[0.62rem] uppercase tracking-widest text-[var(--primary)]">
-              Open PDF Report
-            </span>
-          </a>
+        ) : project.image_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={previewUrl ?? undefined}
+            alt={project.title}
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+          />
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 p-6 text-center">
             <span className="font-mono-label text-[0.6rem] uppercase tracking-widest text-[var(--text-muted)]">
