@@ -168,7 +168,7 @@ export const seedProjects: Project[] = [
     tags: ["Power BI", "Sales Analytics", "Retail Data", "Business Reporting"],
     year: "2026",
     project_url: null,
-    doc_url: "/assets/sales-performance-analyst.pdf",
+    doc_url: "/assets/sales-performance-analyst_compressed.pdf",
     image_url: null,
     featured: true,
     sort_order: 1,
