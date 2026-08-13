@@ -36,17 +36,17 @@ export async function middleware(request: NextRequest) {
   );
 
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+  } = await supabase.auth.getSession();
 
   const isAdminRoute = request.nextUrl.pathname.startsWith("/admin");
   const isLoginPage = request.nextUrl.pathname === "/admin/login";
 
-  if (isAdminRoute && !isLoginPage && !user) {
+  if (isAdminRoute && !isLoginPage && !session) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
-  if (isLoginPage && user) {
+  if (isLoginPage && session) {
     return NextResponse.redirect(new URL("/admin", request.url));
   }
 
