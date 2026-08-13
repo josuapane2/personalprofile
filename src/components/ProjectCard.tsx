@@ -30,6 +30,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             <iframe
               src={`${previewUrl}#page=1&view=FitH&toolbar=0&navpanes=0&scrollbar=0`}
               title={`${project.title} PDF preview`}
+              loading="lazy"
               className="h-full w-full border-0 bg-white"
             />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent p-3">
@@ -44,6 +45,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           <img
             src={previewUrl ?? undefined}
             alt={project.title}
+            loading="lazy"
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
           />
         ) : (
