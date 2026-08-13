@@ -4,7 +4,7 @@ import {
   seedProjects,
   seedSkillGroups,
 } from "./seed-data";
-import { createClient } from "./supabase/server";
+import { createClient as createPublicClient } from "@supabase/supabase-js";
 import type {
   ContactMessage,
   Experience,
@@ -21,11 +21,22 @@ function isConfigured() {
   );
 }
 
+/** Anon client for public reads — avoids cookies so pages stay statically cached. */
+function publicClient() {
+  return createPublicClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
+
 export async function getProfile(): Promise<Profile> {
   if (!isConfigured()) return seedProfile;
 
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("profile").select("*").limit(1).maybeSingle();
+  const { data, error } = await publicClient()
+    .from("profile")
+    .select("*")
+    .limit(1)
+    .maybeSingle();
 
   return error || !data ? seedProfile : (data as Profile);
 }
@@ -39,8 +50,7 @@ export async function getExperiences(
 
   if (!isConfigured()) return fallback;
 
-  const supabase = await createClient();
-  let query = supabase
+  let query = publicClient()
     .from("experiences")
     .select("*")
     .order("sort_order", { ascending: true });
@@ -54,11 +64,16 @@ export async function getExperiences(
 export async function getSkillGroups(): Promise<SkillGroup[]> {
   if (!isConfigured()) return seedSkillGroups;
 
-  const supabase = await createClient();
   const [{ data: groups, error: groupError }, { data: skills, error: skillError }] =
     await Promise.all([
-      supabase.from("skill_groups").select("*").order("sort_order", { ascending: true }),
-      supabase.from("skills").select("*").order("sort_order", { ascending: true }),
+      publicClient()
+        .from("skill_groups")
+        .select("*")
+        .order("sort_order", { ascending: true }),
+      publicClient()
+        .from("skills")
+        .select("*")
+        .order("sort_order", { ascending: true }),
     ]);
 
   if (groupError || skillError || !groups?.length) return seedSkillGroups;
@@ -76,8 +91,7 @@ export async function getProjects(featuredOnly = false): Promise<Project[]> {
 
   if (!isConfigured()) return fallback;
 
-  const supabase = await createClient();
-  let query = supabase
+  let query = publicClient()
     .from("projects")
     .select("*")
     .order("sort_order", { ascending: true });
@@ -91,8 +105,7 @@ export async function getProjects(featuredOnly = false): Promise<Project[]> {
 export async function getContactMessages(): Promise<ContactMessage[]> {
   if (!isConfigured()) return [];
 
-  const supabase = await createClient();
-  const { data } = await supabase
+  const { data } = await publicClient()
     .from("contact_messages")
     .select("*")
     .order("created_at", { ascending: false });
